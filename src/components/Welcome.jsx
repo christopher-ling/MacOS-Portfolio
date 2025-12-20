@@ -20,7 +20,7 @@ const renderText = (text, className, baseWeight = 400) => {
     ))
 }
 
-const setuptTextHover = (container, type) => {
+const setupTextHover = (container, type) => {
     if(!container) return;
 
     const letters = container.querySelectorAll("span");
@@ -63,8 +63,8 @@ const Welcome = () => {
     const subtitleRef = useRef(null);
 
     useGSAP(() => {
-        const titleCleanup = setuptTextHover(titleRef.current, "title");
-        const subtitleCleanup = setuptTextHover(subtitleRef.current, "subtitle");
+        const titleCleanup = setupTextHover(titleRef.current, "title");
+        const subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
 
         return () => {
             subtitleCleanup();
