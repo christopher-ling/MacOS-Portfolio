@@ -57,7 +57,6 @@ const Dock = () => {
         };
     }, []);
 
-
     // Implement open window logic
     const toggleApp = (app) => {};
   return ( <section id="dock">
