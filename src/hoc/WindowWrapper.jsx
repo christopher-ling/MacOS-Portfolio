@@ -123,12 +123,22 @@ const WindowWrapper = (Component, windowKey) => {
                 { selector: '.resize-corner-tl', edge: 'top-left' },
             ];
 
+            const listeners = [];
+
             edges.forEach(({ selector, edge }) => {
                 const handle = el.querySelector(selector);
                 if (handle) {
-                    handle.addEventListener('mousedown', (e) => handleMouseDown(e, edge));
+                    const listener = (e) => handleMouseDown(e, edge);
+                    handle.addEventListener('mousedown', listener);
+                    listeners.push({ handle, listener });
                 }
             });
+
+            return () => {
+                listeners.forEach(({ handle, listener }) => {
+                    handle.removeEventListener('mousedown', listener);
+                });
+            };
         }, [windowKey, focusWindow, resizeWindow]);
 
 
