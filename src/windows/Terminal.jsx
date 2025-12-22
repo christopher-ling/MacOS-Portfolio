@@ -4,33 +4,32 @@ import { Check, Flag } from "lucide-react";
 import WindowControls from "#components/WindowControls";
 
 const Terminal = () => {
-  return <>
-  <div id="window-header">
-    <WindowControls target="terminal" />
-    <h2>Tech Stack</h2>
-  </div>
+  return (
+  <>
+    <div id="window-header">
+        <WindowControls target="terminal" />
+        <h2>Tech Stack</h2>
+    </div>
 
-  <div className="terminal-content">
-    <div className="terminal-body">
-      <p className="terminal-prompt">
-          <span className="font-bold">@christopher % </span>
-          show tech stack
-      </p>
+    <div className="techstack">
+        <p>
+            <span className="font-bold">@adrian % </span>
+            show tech stack
+        </p>
 
-      <div className="terminal-output">
         <div className="label">
-            <p className="label-category">Category</p>
-            <p className="label-tech">Technologies</p>
+            <p className="w-32">Category</p>
+            <p>Technologies</p>
         </div>
 
         <ul className="content">
             {techStack.map(({ category, items }) => (
-                <li key={category} className="tech-row">
-                    <Check className="check"/>
-                    <h3 className="category-name">{category}</h3>
-                    <ul className="tech-items">
+                <li key={category} className="flex items-center">
+                    <Check className="check" size={20} />
+                    <h3>{category}</h3>
+                    <ul>
                         {items.map((item, i) => (
-                            <li key={i} className="tech-item">{item}{i < items.length - 1 ? "," : ""}</li>
+                            <li key={i}>{item}{i < items.length - 1 ? "," : ""}</li>
                         ))}
                     </ul>
                 </li>
@@ -47,10 +46,9 @@ const Terminal = () => {
                 Render time: 6ms
             </p>
         </div>
-      </div>
     </div>
-  </div>
-  </>;
+  </>
+  );
 };
 
 const TerminalWindow = WindowWrapper(Terminal, "terminal");
