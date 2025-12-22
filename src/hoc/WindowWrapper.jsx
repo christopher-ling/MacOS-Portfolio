@@ -21,7 +21,7 @@ import { Draggable } from "gsap/Draggable";
 const WindowWrapper = (Component, windowKey) => {
     const Wrapped = (props) => {
         const { focusWindow, windows } = useWindowStore();
-        const { isOpen, zIndex } = windows[windowKey];
+        const { isOpen, zIndex, isMinimized } = windows[windowKey];
         const ref = useRef(null);
 
         useGSAP(() => {
@@ -48,8 +48,8 @@ const WindowWrapper = (Component, windowKey) => {
         useLayoutEffect(() => {
             const el = ref.current;
             if(!el) return;
-            el.style.display = isOpen ? "block" : "none";
-        }, [isOpen]);
+            el.style.display = isOpen && !isMinimized ? "block" : "none";
+        }, [isOpen, isMinimized]);
 
 
         return (
