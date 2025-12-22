@@ -23,10 +23,10 @@ const useWindowStore = create(immer((set) => ({
             if(!win) return;
             win.isOpen = false;
             win.isMinimized = false;
+            win.isMaximized = false;
+            win.savedPosition = null;
             win.zIndex = INITIAL_Z_INDEX;
             win.data = null;
-            win.width = null;
-            win.height = null;
         }),
 
     focusWindow: (windowKey, data = null) => 
@@ -42,12 +42,18 @@ const useWindowStore = create(immer((set) => ({
             win.isMinimized = true;
         }),
 
-    resizeWindow: (windowKey, width, height) => 
+    maximizeWindow: (windowKey) => 
         set((state) => {
             const win = state.windows[windowKey];
             if(!win) return;
-            win.width = width;
-            win.height = height;
+            win.isMaximized = !win.isMaximized;
+        }),
+
+    setWindowPosition: (windowKey, position) => 
+        set((state) => {
+            const win = state.windows[windowKey];
+            if(!win) return;
+            win.savedPosition = position;
         }),
 })));
 

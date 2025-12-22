@@ -38,6 +38,8 @@ body {
 
   nav {
     @apply flex justify-between items-center bg-white/50 backdrop-blur-3xl p-2 px-5 select-none relative z-40;
+    transition: background-color 0.2s ease;
+    --navbar-height: 48px;
 
     div {
       @apply flex items-center max-sm:w-full max-sm:justify-center gap-5;
@@ -417,6 +419,11 @@ body {
       }
     }
   }
+
+  /* Navbar highlight when dragging window to maximize */
+  nav.maximize-highlight {
+    @apply bg-blue-500/30 backdrop-blur-3xl;
+  }
 }
 
 /* Window resize handles */
@@ -471,4 +478,16 @@ section .resize-corner-tr {
 
 section .resize-corner-tl {
   @apply top-0 left-0 cursor-nwse-resize;
+}
+
+/* Maximized window state */
+section.maximized {
+  @apply !fixed !rounded-xl;
+  top: calc(var(--navbar-height, 48px) + 8px) !important;
+  left: 8px !important;
+  width: calc(100vw - 16px) !important;
+  height: calc(100vh - var(--navbar-height, 48px) - 16px) !important;
+  margin: 0 !important;
+  z-index: 50 !important;
+  transform: none !important;
 }

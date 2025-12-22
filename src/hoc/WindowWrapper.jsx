@@ -1,6 +1,6 @@
 import useWindowStore from "#store/window";
 import { useGSAP } from "@gsap/react";
-import { useLayoutEffect, useRef, useState } from "react"
+import { useLayoutEffect, useRef, useState, useEffect } from "react"
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 
@@ -20,10 +20,11 @@ import { Draggable } from "gsap/Draggable";
  */
 const WindowWrapper = (Component, windowKey) => {
     const Wrapped = (props) => {
-        const { focusWindow, windows, resizeWindow } = useWindowStore();
-        const { isOpen, zIndex, isMinimized, width, height } = windows[windowKey];
+        const { focusWindow, windows, maximizeWindow, setWindowPosition } = useWindowStore();
+        const { isOpen, zIndex, isMinimized, isMaximized, savedPosition } = windows[windowKey];
         const ref = useRef(null);
-        const [isResizing, setIsResizing] = useState(false);
+        const [shouldHighlightNav, setShouldHighlightNav] = useState(false);
+        const draggableInstanceRef = useRef(null);
 
         useGSAP(() => {
             const el = ref.current;
@@ -43,11 +44,75 @@ const WindowWrapper = (Component, windowKey) => {
 
             const [instance] = Draggable.create(el, { 
                 trigger: el.querySelector("#window-header"),
-                onPress: () => focusWindow(windowKey) 
+                onPress: () => focusWindow(windowKey),
+                onDrag: function() {
+                    const navbar = document.querySelector('nav');
+                    if (navbar) {
+                        const rect = el.getBoundingClientRect();
+                        const windowTop = rect.top;
+                        
+                        // Highlight if window top is at or above navbar (0 or negative)
+                        if (windowTop <= 5) {
+                            setShouldHighlightNav(true);
+                        } else {
+                            setShouldHighlightNav(false);
+                        }
+                    }
+                },
+                onDragEnd: function() {
+                    const navbar = document.querySelector('nav');
+                    if (navbar) {
+                        const rect = el.getBoundingClientRect();
+                        const windowTop = rect.top;
+                        
+                        // Maximize if window top is at or above navbar top
+                        if (windowTop <= 5) {
+                            // Save position before maximizing
+                            setWindowPosition(windowKey, {
+                                left: el.style.left,
+                                top: el.style.top,
+                                width: el.style.width,
+                                height: el.style.height,
+                            });
+                            maximizeWindow(windowKey);
+                        }
+                    }
+                    setShouldHighlightNav(false);
+                }
             });
+
+            draggableInstanceRef.current = instance;
 
             return () => instance.kill();
         }, []);
+
+        // Handle maximize state changes
+        useEffect(() => {
+            const el = ref.current;
+            if (!el || !draggableInstanceRef.current) return;
+
+            if (isMaximized) {
+                // Reset GSAP transform to fix offset
+                gsap.set(el, { x: 0, y: 0 });
+                // Disable dragging when maximized
+                draggableInstanceRef.current.disable();
+            } else {
+                // Re-enable dragging when restored
+                draggableInstanceRef.current.enable();
+                
+                // Restore saved position if available
+                if (savedPosition) {
+                    gsap.set(el, {
+                        x: 0,
+                        y: 0,
+                        left: savedPosition.left,
+                        top: savedPosition.top,
+                        width: savedPosition.width,
+                        height: savedPosition.height,
+                    });
+                }
+            }
+        }, [isMaximized, savedPosition]);
 
         useLayoutEffect(() => {
             const el = ref.current;
@@ -55,104 +120,26 @@ const WindowWrapper = (Component, windowKey) => {
             el.style.display = isOpen && !isMinimized ? "block" : "none";
         }, [isOpen, isMinimized]);
 
-        useLayoutEffect(() => {
-            const el = ref.current;
-            if (!el) return;
-
-            const handleMouseDown = (e, edge) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsResizing(true);
-                focusWindow(windowKey);
-
-                const startX = e.clientX;
-                const startY = e.clientY;
-                const startWidth = el.offsetWidth;
-                const startHeight = el.offsetHeight;
-                const startLeft = el.offsetLeft;
-                const startTop = el.offsetTop;
-
-                const handleMouseMove = (e) => {
-                    let newWidth = startWidth;
-                    let newHeight = startHeight;
-                    let newLeft = startLeft;
-                    let newTop = startTop;
-
-                    if (edge.includes('right')) {
-                        newWidth = Math.max(300, startWidth + (e.clientX - startX));
-                    }
-                    if (edge.includes('left')) {
-                        const delta = e.clientX - startX;
-                        newWidth = Math.max(300, startWidth - delta);
-                        if (newWidth > 300) newLeft = startLeft + delta;
-                    }
-                    if (edge.includes('bottom')) {
-                        newHeight = Math.max(200, startHeight + (e.clientY - startY));
-                    }
-                    if (edge.includes('top')) {
-                        const delta = e.clientY - startY;
-                        newHeight = Math.max(200, startHeight - delta);
-                        if (newHeight > 200) newTop = startTop + delta;
-                    }
-
-                    el.style.width = `${newWidth}px`;
-                    el.style.height = `${newHeight}px`;
-                    el.style.left = `${newLeft}px`;
-                    el.style.top = `${newTop}px`;
-                };
-
-                const handleMouseUp = () => {
-                    setIsResizing(false);
-                    resizeWindow(windowKey, el.offsetWidth, el.offsetHeight);
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                };
-
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-            };
-
-            const edges = [
-                { selector: '.resize-right', edge: 'right' },
-                { selector: '.resize-left', edge: 'left' },
-                { selector: '.resize-bottom', edge: 'bottom' },
-                { selector: '.resize-top', edge: 'top' },
-                { selector: '.resize-corner-br', edge: 'bottom-right' },
-                { selector: '.resize-corner-bl', edge: 'bottom-left' },
-                { selector: '.resize-corner-tr', edge: 'top-right' },
-                { selector: '.resize-corner-tl', edge: 'top-left' },
-            ];
-
-            edges.forEach(({ selector, edge }) => {
-                const handle = el.querySelector(selector);
-                if (handle) {
-                    handle.addEventListener('mousedown', (e) => handleMouseDown(e, edge));
+        // Add/remove highlight class to navbar
+        useEffect(() => {
+            const navbar = document.querySelector('nav');
+            if (navbar) {
+                if (shouldHighlightNav) {
+                    navbar.classList.add('maximize-highlight');
+                } else {
+                    navbar.classList.remove('maximize-highlight');
                 }
-            });
-        }, [windowKey, focusWindow, resizeWindow]);
+            }
+        }, [shouldHighlightNav]);
 
 
         return (
             <section 
                 id={windowKey} 
                 ref={ref} 
-                style={{ 
-                    zIndex,
-                    width: width ? `${width}px` : undefined,
-                    height: height ? `${height}px` : undefined,
-                }} 
-                className="absolute">
+                style={{ zIndex }} 
+                className={`absolute ${isMaximized ? 'maximized' : ''}`}>
                 <Component {...props} />
-                
-                {/* Resize handles */}
-                <div className="resize-right" />
-                <div className="resize-left" />
-                <div className="resize-bottom" />
-                <div className="resize-top" />
-                <div className="resize-corner-br" />
-                <div className="resize-corner-bl" />
-                <div className="resize-corner-tr" />
-                <div className="resize-corner-tl" />
             </section>
         );
     };
