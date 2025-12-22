@@ -493,14 +493,14 @@ export const locations = {
 const INITIAL_Z_INDEX = 1000;
 
 const WINDOW_CONFIG = {
-  finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  resume: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  safari: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  photos: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  terminal: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  txtfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
-  imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false },
+  finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  resume: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  safari: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  photos: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  terminal: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  txtfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
+  imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
 };
 
 export { INITIAL_Z_INDEX, WINDOW_CONFIG };
