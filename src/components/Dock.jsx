@@ -70,9 +70,14 @@ const Dock = () => {
             return;
         }
 
-        if(window.isOpen) {
+        if(window.isOpen && window.isMinimized) {
+            // Restore minimized window
+            openWindow(app.id);
+        } else if(window.isOpen) {
+            // Close open window
             closeWindow(app.id);
         } else {
+            // Open closed window
             openWindow(app.id);
         }
     };
@@ -98,6 +103,9 @@ const Dock = () => {
                                 className={canOpen ? "" : "opacity-60"}
                             />
                         </button>
+                        {windows[id]?.isOpen && (
+                            <div className="absolute -bottom-1 w-1 h-1 bg-white rounded-full" />
+                        )}
                     </div>
                 ))}
 
