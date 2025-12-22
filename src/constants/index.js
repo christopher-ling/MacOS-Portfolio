@@ -492,6 +492,10 @@ export const locations = {
 
 const INITIAL_Z_INDEX = 1000;
 
+// Minimum window dimensions for resizing
+const MIN_WINDOW_WIDTH = 300;
+const MIN_WINDOW_HEIGHT = 200;
+
 const WINDOW_CONFIG = {
   finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
   contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
@@ -503,4 +507,4 @@ const WINDOW_CONFIG = {
   imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null, isMinimized: false, width: null, height: null },
 };
 
-export { INITIAL_Z_INDEX, WINDOW_CONFIG };
+export { INITIAL_Z_INDEX, WINDOW_CONFIG, MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT };

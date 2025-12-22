@@ -3,6 +3,7 @@ import { useGSAP } from "@gsap/react";
 import { useLayoutEffect, useRef, useState } from "react"
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
+import { MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT } from "#constants";
 
 /**
  * Higher-order component that wraps a window-like component with
@@ -79,20 +80,20 @@ const WindowWrapper = (Component, windowKey) => {
                     let newTop = startTop;
 
                     if (edge.includes('right')) {
-                        newWidth = Math.max(300, startWidth + (e.clientX - startX));
+                        newWidth = Math.max(MIN_WINDOW_WIDTH, startWidth + (e.clientX - startX));
                     }
                     if (edge.includes('left')) {
                         const delta = e.clientX - startX;
-                        newWidth = Math.max(300, startWidth - delta);
-                        if (newWidth > 300) newLeft = startLeft + delta;
+                        newWidth = Math.max(MIN_WINDOW_WIDTH, startWidth - delta);
+                        if (newWidth > MIN_WINDOW_WIDTH) newLeft = startLeft + delta;
                     }
                     if (edge.includes('bottom')) {
-                        newHeight = Math.max(200, startHeight + (e.clientY - startY));
+                        newHeight = Math.max(MIN_WINDOW_HEIGHT, startHeight + (e.clientY - startY));
                     }
                     if (edge.includes('top')) {
                         const delta = e.clientY - startY;
-                        newHeight = Math.max(200, startHeight - delta);
-                        if (newHeight > 200) newTop = startTop + delta;
+                        newHeight = Math.max(MIN_WINDOW_HEIGHT, startHeight - delta);
+                        if (newHeight > MIN_WINDOW_HEIGHT) newTop = startTop + delta;
                     }
 
                     el.style.width = `${newWidth}px`;
