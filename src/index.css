@@ -299,7 +299,10 @@ body {
   }
 
   #resume {
-    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-fit absolute bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    right: 1%;
+    top: 1%;
+    max-height: 90%;
 
     #window-header {
       h2 {
@@ -395,21 +398,4 @@ body {
       }
     }
   }
-
-  /* Navbar highlight when dragging window to maximize */
-  nav.maximize-highlight {
-    @apply bg-blue-500/30 backdrop-blur-3xl;
-  }
-}
-
-/* Maximized window state */
-section.maximized {
-  @apply !fixed !rounded-xl;
-  top: calc(var(--navbar-height, 48px) + 8px) !important;
-  left: 8px !important;
-  width: calc(100vw - 16px) !important;
-  height: calc(100vh - var(--navbar-height, 48px) - 16px) !important;
-  margin: 0 !important;
-  z-index: 50 !important;
-  transform: none !important;
 }
