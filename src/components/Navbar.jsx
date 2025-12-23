@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <nav>
         <div>
-            <img src="/images/logo.svg" alt="logo" />
+            <img src="images/logo.svg" alt="logo" />
             <p className="font-bold">Christopher's Portfolio</p>
 
             <ul>

@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import { resolve, dirname } from "path";
 import { fileURLToPath } from 'url';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/MacOS-Portfolio/' : '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -15,4 +16,4 @@ export default defineConfig({
       '#windows': resolve(dirname(fileURLToPath(import.meta.url)), 'src/windows'),
     }
   }
-})
+}))
