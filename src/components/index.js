@@ -3,6 +3,7 @@ import Welcome from "./Welcome";
 import Dock from "./Dock";
 import WindowControls from "./WindowControls";
 import Home from "./Home";
+import ControlCenter from "./ControlCenter";
 
 
-export { Navbar, Welcome, Dock, WindowControls, Home };
+export { Navbar, Welcome, Dock, WindowControls, Home, ControlCenter };

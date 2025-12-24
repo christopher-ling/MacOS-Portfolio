@@ -19,6 +19,27 @@ body {
   --breakpoint-3xl: 1920px;
 }
 
+/* Theme Variables */
+:root {
+  /* Light mode (default) */
+  --bg-navbar: rgba(255, 255, 255, 0.5);
+  --text-primary: #000000;
+  --text-secondary: #6b7280;
+  --bg-window: rgba(255, 255, 255, 0.8);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --hover-bg: #e5e7eb;
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --bg-navbar: #191653;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --bg-window: rgba(40, 40, 40, 0.9);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --hover-bg: #374151;
+}
+
 @utility flex-center {
   @apply flex items-center justify-center;
 }
@@ -37,9 +58,36 @@ body {
   }
 
   nav {
-    @apply flex justify-between items-center bg-white/50 backdrop-blur-3xl p-2 px-5 select-none relative z-40;
+    @apply flex justify-between items-center backdrop-blur-3xl px-5 select-none relative z-40;
+    background-color: var(--bg-navbar);
     transition: background-color 0.2s ease;
-    --navbar-height: 48px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    --navbar-height: 56px;
+
+    /* Logo styling - invert colors for dark mode */
+    img[alt="logo"] {
+      transition: filter 0.2s ease;
+    }
+
+    [data-theme="dark"] & img[alt="logo"] {
+      filter: invert(1) brightness(1.2);
+    }
+
+    /* Portfolio name/title text */
+    p {
+      color: var(--text-primary);
+      transition: color 0.2s ease;
+    }
+
+    /* Nav icons - invert for dark mode */
+    .icon-hover {
+      transition: filter 0.2s ease;
+    }
+
+    [data-theme="dark"] & .icon-hover {
+      filter: invert(1) brightness(1.1);
+    }
 
     div {
       @apply flex items-center max-sm:w-full max-sm:justify-center gap-5;
@@ -54,11 +102,13 @@ body {
 
       p {
         @apply text-sm cursor-pointer hover:underline transition-all;
+        color: var(--text-primary);
       }
     }
 
     time {
-      @apply text-sm font-medium text-black;
+      @apply text-sm font-medium;
+      color: var(--text-primary);
     }
   }
 }
@@ -66,6 +116,15 @@ body {
 @layer components {
   .icon {
     @apply p-1 hover:bg-gray-200 rounded hover:cursor-default;
+  }
+
+  /* Navbar Icon Hover Effect */
+  .icon-hover {
+    @apply p-1 rounded-sm;
+  }
+
+  .icon-hover:hover {
+    background-color: #b9b9c4;
   }
 
   #welcome {
@@ -397,5 +456,86 @@ body {
         }
       }
     }
+  }
+
+  /* Control Center Styles - Tutorial Site Style */
+  .control-center {
+    @apply fixed z-50 backdrop-blur-xl rounded-md shadow-md border;
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.1);
+    padding: 4px;
+    min-width: 8rem;
+    width: fit-content;
+    animation: fadeInZoom 0.15s ease-out;
+    top: 35px;
+    right: 130px;
+  }
+
+  [data-theme="dark"] .control-center {
+    background: rgba(30, 30, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @keyframes fadeInZoom {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Theme option items */
+  .theme-option-item {
+    @apply w-full flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm transition-all cursor-pointer select-none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    outline: none;
+  }
+
+  .theme-option-item:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  [data-theme="dark"] .theme-option-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .theme-option-item.active {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="dark"] .theme-option-item.active {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .theme-option-item .icon {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: fill 0.2s ease, color 0.2s ease;
+    pointer-events: none;
+  }
+
+  /* Icon colors - only show when active */
+  .theme-option-item.active .icon-sun {
+    fill: #f59e0b;
+    color: #6b7280;
+  }
+
+  .theme-option-item.active .icon-moon {
+    fill: #ef4444;
+    color: #6b7280;
+  }
+
+  .theme-option-item.active .icon-laptop {
+    color: #6b7280;
+  }
+
+  .theme-option-item span {
+    font-weight: 400;
+    pointer-events: none;
   }
 }
