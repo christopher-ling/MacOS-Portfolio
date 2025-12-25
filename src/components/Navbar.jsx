@@ -59,21 +59,6 @@ const Navbar = () => {
               <time>{currentTime}</time>
           </div>
       </nav>
-
-      {/* Mobile navbar - visible only on small screens via CSS */}
-      <section id="mobile-navbar" className="flex justify-between items-center py-3 px-5 gap-5 sm:hidden relative z-10000" style={{display: 'none'}}>
-        <time>{currentTime.split(' ')[currentTime.split(' ').length - 2]} {currentTime.split(' ').slice(-1)}</time>
-        <div className="bg-black flex-1 rounded-full px-2 py-2"></div>
-        <ul className="flex items-center gap-2">
-          <li>
-            <img src="icons/wifi.svg" alt="wifi" className="icon" />
-          </li>
-          <li>
-            <img src="icons/battery.svg" alt="battery" className="icon" />
-          </li>
-        </ul>
-      </section>
-
       <ControlCenter 
         isOpen={isControlCenterOpen} 
         onClose={() => setIsControlCenterOpen(false)} 
