@@ -29,7 +29,7 @@ const Safari = () => {
                     />
                 </div>
             </div>
-            <div className="flex items0center gap-5">
+            <div className="flex items-center gap-5">
                 <Share className="icon" />
                 <Plus className="icon" />
                 <Copy className="icon" />

@@ -1,6 +1,7 @@
 import { WindowControls } from "#components";
 import WindowWrapper from "#hoc/WindowWrapper";
 import useWindowStore from "#store/window";
+import { Edit, Plus, Share } from "lucide-react";
 
 const Image = () => {
   const { windows } = useWindowStore();
@@ -14,14 +15,18 @@ const Image = () => {
     <>
       <div id="window-header">
         <WindowControls target="imgfile" />
-        <h2>{name}</h2>
+        <div className="flex items-center gap-5">
+              <Edit className="icon" />
+              <Plus className="icon" />
+              <Share className="icon" />
+          </div>
       </div>
 
-      <div className="p-5 bg-white flex items-center justify-center h-full">
+      <div className="p-2 flex items-center justify-center h-full" style={{ backgroundColor: 'var(--bg-sidebar)' }}>
         <img 
           src={imageUrl} 
           alt={name} 
-          className="max-w-full max-h-full object-contain"
+          className="w-full h-full object-contain"
         />
       </div>
     </>

@@ -41,8 +41,8 @@ const Terminal = () => {
                 <Check size={20} /> {techStack.length} of {techStack.length} stacks loaded successfully (100%)
             </p>
 
-            <p className="text-black">
-                <Flag size={15} fill="black"/>
+            <p style={{ color: 'var(--window-text)' }}>
+                <Flag size={15} style={{ fill: "black" }} />
                 Render time: 6ms
             </p>
         </div>
