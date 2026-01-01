@@ -1,16 +1,69 @@
-# React + Vite
+# macOS Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[View live demo →](https://christopher-ling.github.io/MacOS-Portfolio)
 
-Currently, two official plugins are available:
+A compact macOS-style portfolio built with React + Vite. Shows a windowed UI, Dock with magnification, theme Control Center, and responsive mobile behavior.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+--
 
-## React Compiler
+## Preview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+[![Site preview](public/files/preview.gif)](https://christopher-ling.github.io/MacOS-Portfolio/preview.mp4)
 
-## Expanding the ESLint configuration
+_Note:_ Place `public/files/preview.gif` and `public/preview.mp4` locally to make the preview render and link correctly.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- Windowed UI (draggable windows)
+- Dock with GSAP hover magnification
+- Control Center for Light / Dark / System themes
+- Responsive mobile navbar and dock
+
+## Tech
+
+- React (Vite)
+- Tailwind CSS
+- Zustand
+- GSAP
+- lucide-react
+
+## Usage
+
+Install and run locally:
+
+```bash
+npm install
+npm run dev
+```
+
+Open the URL Vite reports (usually `http://localhost:5173`) to preview.
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Customize
+
+- Projects: edit `src/constants/index.js`
+- Dock apps: update `dockApps` in `src/constants/index.js`
+- Theming: `src/store/theme.js`
+
+## Contributing
+
+Open an issue or submit a PR. I can also help scaffold example projects or add a preview asset.
+
+## License
+
+Private showcase — no license included. If you later want to allow reuse, I recommend adding the MIT license.
+
+--
+
+Next steps I can do for you:
+
+- Add the actual `preview.gif` / `preview.mp4` into `public/` and update the README
+- Scaffold an example project entry in `src/constants/index.js`
+- Add a LICENSE file (if you change your mind)
+
+Tell me which one to do next.
